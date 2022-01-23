@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "507487912198",
+    "project_id": "twinku-14c8c",
+    "storage_bucket": "twinku-14c8c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507487912198:android:f95d7450b3fb20cf275e87",
+        "android_client_info": {
+          "package_name": "com.example.twinku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507487912198-p1k3vupnebmln1lcga9koqnj35be6bds.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.twinku",
+            "certificate_hash": "8235f2c1acb0c6487aabc8b72fca8363a3468130"
+          }
+        },
+        {
+          "client_id": "507487912198-n0mo6fp9p4nsp3tq7gak72vl4p8qu6v8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCAvLKUzQXf_odHGTMwCKtsi3c38EBDmw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507487912198-n0mo6fp9p4nsp3tq7gak72vl4p8qu6v8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
