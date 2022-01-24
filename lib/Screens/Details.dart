@@ -1,22 +1,42 @@
-// ignore_for_file: file_names, prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace, non_constant_identifier_names
+// ignore_for_file: file_names, prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace, non_constant_identifier_names, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:twinku/Comon/ShowDialog.dart';
 import 'package:twinku/Comon/Showdialog_Delete.dart';
+import 'package:twinku/Models/Create_post.dart';
+import 'package:twinku/Services/database.dart';
 
-class Details extends StatelessWidget {
+class Details extends StatefulWidget {
+  Details({required this.posts, required this.database});
+  final CreatePost posts;
+  final Database database;
+  static Future<void> show(
+      BuildContext context, CreatePost posts, Database database) async {
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        fullscreenDialog: false,
+        builder: (context) => Details(database: database, posts: posts),
+      ),
+    );
+  }
+
+  @override
+  State<Details> createState() => _DetailsState();
+}
+
+class _DetailsState extends State<Details> {
   Future<void> Features(BuildContext context) async {
     final confirmation = await Showdialog(
       context,
+      database: widget.database,
+      modifilepost: widget.posts,
       CancelactionText: "Edit Post",
       DefaultActionText: " Delete Post",
     );
-    if (confirmation == true) {
-      // await _singInOut(context);
-    }
+    await confirmation;
+    Navigator.pop(context);
   }
-
-  const Details({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +86,7 @@ class Details extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,7 +104,7 @@ class Details extends StatelessWidget {
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () => Navigator.pop(context),
                           child: Icon(
                             Icons.arrow_back_ios_rounded,
                             color: Colors.black,
@@ -136,8 +157,7 @@ class Details extends StatelessWidget {
                       topRight: Radius.circular(30),
                     ),
                     image: DecorationImage(
-                        image: NetworkImage(
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4PdHtXka2-bDDww6Nuect3Mt9IwpE4v4HNw&usqp=CAU'),
+                        image: NetworkImage(widget.posts.Urls),
                         fit: BoxFit.fill),
                   ),
                 ),
@@ -145,8 +165,9 @@ class Details extends StatelessWidget {
                   height: 16,
                 ),
                 Text(
-                  "Twinku raises \$ 4.2m seed for Africa-wide expansion",
+                  widget.posts.Title,
                   maxLines: 2,
+                  textAlign: TextAlign.start,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: Colors.black,
@@ -262,8 +283,9 @@ class Details extends StatelessWidget {
                   maxLines: null,
                 ), */
                 Text(
-                  "Twinku raises \$ 4.2m seed for Africa-wide expansion",
+                  widget.posts.Body,
                   maxLines: 500,
+                  textAlign: TextAlign.right,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: Colors.black,

@@ -1,8 +1,13 @@
 // ignore_for_file: file_names, prefer_const_literals_to_create_immutables, prefer_const_constructors, non_constant_identifier_names, sized_box_for_whitespace, use_key_in_widget_constructors, must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:twinku/Contant/Cards.dart';
 import 'package:twinku/Contant/Categories.dart';
+import 'package:twinku/Models/Create_post.dart';
+import 'package:twinku/Screens/Details.dart';
+import 'package:twinku/Screens/Edit_post.dart';
+import 'package:twinku/Services/database.dart';
 import 'package:twinku/Widget/brakingnews.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,6 +28,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final database = Provider.of<Database>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -125,15 +131,40 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 15,
                   ),
-                  Container(
-                    width: double.infinity,
-                    height: 300,
-                    margin: EdgeInsets.symmetric(horizontal: 3),
-                    child: ListView.builder(
-                      itemBuilder: (context, index) => BreakingNews(),
-                      itemCount: 10,
-                      scrollDirection: Axis.horizontal,
-                    ),
+                  StreamBuilder<List<CreatePost>>(
+                    stream: database.readPostsStream(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        final post = snapshot.data;
+                        print('post $post');
+                        return Container(
+                          width: double.infinity,
+                          height: 300,
+                          margin: EdgeInsets.symmetric(horizontal: 3),
+                          child: ListView.builder(
+                            itemBuilder: (context, index) => BreakingNews(
+                                post: post![index],
+                                onTap: () => Details.show(
+                                      context,
+                                      post[index],
+                                      database,
+                                    )),
+                            itemCount: post!.length,
+                            scrollDirection: Axis.horizontal,
+                          ),
+                        );
+                      }
+                      return Container(
+                        width: double.infinity,
+                        height: 300,
+                        margin: EdgeInsets.symmetric(horizontal: 3),
+                        child: ListView.builder(
+                          itemBuilder: (context, index) => Text('no data'),
+                          itemCount: 1,
+                          scrollDirection: Axis.horizontal,
+                        ),
+                      );
+                    },
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 4),

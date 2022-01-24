@@ -7,7 +7,7 @@ import 'package:twinku/Services/api_path.dart';
 abstract class Database {
   Future<void> createpost(CreatePost Post);
   Future<void> deletepost(CreatePost Post);
-  //Stream<List<CreatePost>> readPostsStream();
+  Stream<List<CreatePost>> readPostsStream();
 }
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
@@ -27,9 +27,9 @@ class FirestoreDataBase implements Database {
         path: ApiPath.Post(Uid, Post.id),
       );
 
-  // @override
-  // Stream<List<CreatePost>> readPostsStream() {
-  //   Stream<List<CreatePost>>? h;
-  //   return h;
-  // }
+  @override
+  Stream<List<CreatePost>> readPostsStream() => _service.collectionStream(
+        path: ApiPath.Posts(Uid),
+        builder: (data, document) => CreatePost.fromMap(data, document),
+      );
 }

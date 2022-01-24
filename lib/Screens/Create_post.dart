@@ -94,14 +94,14 @@ class _CreatPostState extends State<CreatPost> {
 
         await database.createpost(Post);
       }
-      Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Showexception(
         context,
         title: 'Creating failed',
         exception: e,
       );
-    } finally {}
+    }
   }
 
 //
@@ -140,7 +140,7 @@ class _CreatPostState extends State<CreatPost> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () => Navigator.pop(context),
                       child: Text(
                         "Cancel",
                         style: TextStyle(

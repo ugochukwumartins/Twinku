@@ -5,10 +5,16 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:twinku/Comon/Showdialog_Delete.dart';
+import 'package:twinku/Models/Create_post.dart';
 import 'package:twinku/Screens/Create_post.dart';
 import 'package:twinku/Screens/Edit_post.dart';
+import 'package:twinku/Services/database.dart';
 
-Future<void> ConfirmsingInOut(BuildContext context) async {
+Future<void> Confirmsdelete(
+  BuildContext context,
+  Database database,
+  CreatePost Post,
+) async {
   final confirmation = await Delete(
     context,
     content: "Are You Sure You want To delete this post?",
@@ -16,12 +22,15 @@ Future<void> ConfirmsingInOut(BuildContext context) async {
     DefaultActionText: "Yes",
   );
   if (confirmation == true) {
-    // await _singInOut(context);
+    database.deletepost(Post);
+    Navigator.pop(context);
   }
 }
 
 Future<dynamic> Showdialog(
   BuildContext context, {
+  required Database database,
+  required CreatePost modifilepost,
   required String CancelactionText,
   required String DefaultActionText,
 }) {
@@ -41,7 +50,10 @@ Future<dynamic> Showdialog(
                 InkWell(
                   onTap: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const EditPost()),
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          EditPost(Post: modifilepost, database: database),
+                    ),
                   ),
                   child: Row(
                     children: <Widget>[
@@ -59,7 +71,11 @@ Future<dynamic> Showdialog(
                   color: Colors.black,
                 ),
                 InkWell(
-                  onTap: () => ConfirmsingInOut(context),
+                  onTap: () => Confirmsdelete(
+                    context,
+                    database,
+                    modifilepost,
+                  ),
                   child: Row(
                     children: <Widget>[
                       Icon(

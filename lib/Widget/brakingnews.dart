@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:twinku/Models/Create_post.dart';
 
 class BreakingNews extends StatelessWidget {
-  const BreakingNews({Key? key}) : super(key: key);
+  const BreakingNews({required this.post, required this.onTap});
+  final CreatePost post;
 
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,7 +30,7 @@ class BreakingNews extends StatelessWidget {
             topRight: Radius.circular(30),
           ),
           child: InkWell(
-            onTap: () {},
+            onTap: () => onTap(),
             child: Column(
               children: <Widget>[
                 Container(
@@ -40,9 +43,7 @@ class BreakingNews extends StatelessWidget {
                       topRight: Radius.circular(30),
                     ),
                     image: DecorationImage(
-                        image: NetworkImage(
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4PdHtXka2-bDDww6Nuect3Mt9IwpE4v4HNw&usqp=CAU'),
-                        fit: BoxFit.fill),
+                        image: NetworkImage(post.Urls), fit: BoxFit.fill),
                   ),
                 ),
                 SizedBox(
@@ -54,7 +55,7 @@ class BreakingNews extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "Twinku raises \$ 4.2m seed for Africa-wide expansion",
+                        post.Title,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

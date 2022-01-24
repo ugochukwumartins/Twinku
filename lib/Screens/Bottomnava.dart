@@ -32,7 +32,7 @@ class _ButtomBar extends State<ButtomBar> {
         'title': "HomePage",
       },
       {
-        'page': EditPost(),
+        'page': CreatPost(),
         'title': "Search",
       },
       {
@@ -40,8 +40,8 @@ class _ButtomBar extends State<ButtomBar> {
         'title': "CreatePost",
       },
       {
-        'page': Details(),
-        'title': "Saved",
+        'page': CreatPost(),
+        'title': "Create Post",
       },
       {
         'page': AccounPage(),
