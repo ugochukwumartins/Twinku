@@ -1,9 +1,46 @@
-// ignore_for_file: file_names, prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace
+// ignore_for_file: file_names, prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace, deprecated_member_use
+
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
-class CreatPost extends StatelessWidget {
+class CreatPost extends StatefulWidget {
   const CreatPost({Key? key}) : super(key: key);
+
+  @override
+  State<CreatPost> createState() => _CreatPostState();
+}
+
+class _CreatPostState extends State<CreatPost> {
+  File pickedImag =
+      File('/twinku/Image/stock-photo-compact-digital-camera-157570142.jpg');
+  void pickimageFromgGallerry() async {
+    final picker = ImagePicker();
+    final picked = await picker.getImage(source: ImageSource.gallery);
+    final file = File(picked!.path.toString());
+    setState(() {
+      pickedImag = file;
+    });
+    Navigator.pop(context);
+  }
+
+  void pickimageFromgCamera() async {
+    final picker = ImagePicker();
+    final picked = await picker.getImage(source: ImageSource.camera);
+    final file = File(picked!.path.toString());
+    setState(() {
+      pickedImag = file;
+    });
+    Navigator.pop(context);
+  }
+
+  void _remove() {
+    setState(() {
+      pickedImag == null;
+    });
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,9 +128,9 @@ class CreatPost extends StatelessWidget {
                           topRight: Radius.circular(30),
                         ),
                         image: DecorationImage(
-                            image: NetworkImage(
-                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4PdHtXka2-bDDww6Nuect3Mt9IwpE4v4HNw&usqp=CAU'),
-                            fit: BoxFit.fill),
+                          image: FileImage(pickedImag),
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
                     Positioned(
@@ -114,7 +151,81 @@ class CreatPost extends StatelessWidget {
                         child: Material(
                           color: Colors.transparent,
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              //
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                        'Choose option',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black),
+                                      ),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: [
+                                            InkWell(
+                                              onTap: pickimageFromgCamera,
+                                              splashColor: Colors.purpleAccent,
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Icon(
+                                                      Icons.camera,
+                                                      color:
+                                                          Colors.purpleAccent,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'Camera',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.black),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            InkWell(
+                                              onTap: pickimageFromgGallerry,
+                                              splashColor: Colors.purpleAccent,
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Icon(
+                                                      Icons.image,
+                                                      color:
+                                                          Colors.purpleAccent,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'Gallery',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.black),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
+
+                              //
+                            },
                             child: Icon(
                               Icons.camera_alt_rounded,
                               color: Colors.blue,
