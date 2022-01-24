@@ -24,11 +24,10 @@ class LandingPage extends StatelessWidget {
           if (users == null) {
             return LoginIn();
           } else {
-            return ButtomBar();
-            // return Provider<Database>(
-            //   create: (_) => FirestoreDataBase(Uid: users.uid),
-            //   child: ButtomBar(),
-            // );
+            return Provider<Database>(
+              create: (_) => FirestoreDataBase(Uid: users.uid),
+              child: ButtomBar(),
+            );
           }
         }
         return Scaffold(

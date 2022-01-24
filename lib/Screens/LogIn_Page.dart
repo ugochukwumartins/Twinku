@@ -52,10 +52,7 @@ class _LoginInState extends State<LoginIn> {
   //
   Future<void> _signIn() async {
     final auth = Provider.of<AuthBase>(context, listen: false);
-    // setState(() {
-    //   submitted = true;
-    //   _isLoading = true;
-    // });
+
     try {
       if (_validateAndSave()) {
         await auth.singinWithEmail(_email, _password);
@@ -67,11 +64,7 @@ class _LoginInState extends State<LoginIn> {
         title: 'Sing in Failed',
         exception: e,
       );
-    } finally {
-      // setState(() {
-      //_isLoading = false;
-      // });
-    }
+    } finally {}
   }
 
   //
