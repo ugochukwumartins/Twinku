@@ -285,12 +285,12 @@ class _DetailsState extends State<Details> {
                 Text(
                   widget.posts.Body,
                   maxLines: 500,
-                  textAlign: TextAlign.right,
+                  textAlign: TextAlign.start,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.normal,
                   ),
                 ),
               ],
